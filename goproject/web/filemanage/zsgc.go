@@ -71,20 +71,56 @@ func addfile(filename, name, psw, mail string) bool {
 	return true
 }
 
+func isexist(filename, name, mail string) (namexist, mailexist bool) {
+	defer f.Close()
+	f, err = os.Open(filename)
+	namexist = false
+	mailexist = false
+	if err != nil {
+		println("can not open the file ,err is %+v", err)
+	}
+
+	r := csv.NewReader(f)
+	for {
+		row, err := r.Read()
+		if err != nil && err != io.EOF {
+			println("can not read,the err is %+v", err)
+		}
+		if err == io.EOF {
+			break
+		}
+
+		if row[0] == name {
+			namexist = true
+			break
+		}
+		if row[2] == mail {
+			mailexist = true
+			break
+		}
+	}
+	return namexist, mailexist
+}
+
 /*
-	filename:绝对地址,order:命令，add or search 
+	filename:绝对地址,order:命令，add or search or check
 */
-func FileOrder(filename, order, name, psw, mail string) bool {
+func FileOrder(filename, order, name, psw, mail string) (flagname, flagmail bool) {
+	flagname = false
+	flagmail = false
 	if !checkFileIsExist(filename) {
 		os.Create(filename)
 
 	}
 	if order == "search" {
-		flag := readfile(filename, name, psw)
-		return flag
+		flagname = readfile(filename, name, psw)
+		return flagname, flagmail
 	} else if order == "add" {
-		flag := addfile(filename, name, psw, mail)
-		return flag
+		flagname := addfile(filename, name, psw, mail)
+		return flagname, flagmail
+	} else if order == "check" {
+		flagname, flagmail = isexist(filename, name, mail)
+		return flagname, flagmail
 	}
-	return false
+	return flagname, flagmail
 }
