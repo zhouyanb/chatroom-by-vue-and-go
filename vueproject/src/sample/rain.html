@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>rain</title>
+        <style>
+            body{
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <script>
+         
+         setInterval(function(){
+            var rain = document.createElement("div");
+            rain.style.position="fixed";
+            rain.style.height="150px";
+            rain.style.width="2px";
+            rain.style.background="#1e9eb3";
+            rain.style.filter="blur(1px)";
+            rain.style.top="0px";
+            rain.style.left=Math.random()*1920+"px";
+            rain.style.opacity=parseInt(Math.random()*10)/10+"";
+            document.body.appendChild(rain);
+            var timer = setInterval(function(){
+                var height = parseInt(rain.style.top);
+                var k=1;
+                k++;
+                rain.style.top=height+5*Math.pow(k,2)+"px";
+                if(rain.style.top>="900px"){
+                    clearInterval(timer);
+                    rain.parentElement.removeChild(rain);
+                }
+            },4)
+      },8)
+             
+             
+        </script>
+    </body>
+</html>

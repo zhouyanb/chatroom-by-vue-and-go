@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <style>
+      body{
+        /* background-color: black; */
+      }
+    </style>
+    
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <script type="text/javascript" src="live2dw/lib/L2Dwidget.min.js"></script>
+    
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script type="text/javascript">
+        var a_idx = 0;
+        var color_idx = 0;
+        jQuery(document).ready(function($) {
+            $("body").click(function(e) {
+                var a = new Array("^-^","˶´⚰︎`˵","( ˶˙º˙˶ )୨","꒰⑅•ᴗ•⑅꒱","(๑> ₃ <)","ฅ'ω'ฅ♪");
+                var color = new Array("#96c24e","#1677b3","#f9d367")
+                var $i = $("<span/>").text(a[a_idx]);
+                a_idx = (a_idx + 1) % a.length;
+                var x = e.pageX,
+                y = e.pageY;
+                $i.css({
+                    "z-index": 999999999999999999999999999999999999999999999999999999999999999999999,
+                    "top": y - 20,
+                    "left": x,
+                    "position": "absolute",
+                    "font-weight": "bold",
+                    "color": color[color_idx]
+                });
+                color_idx = (color_idx+1) % color.length;
+                $("body").append($i);
+                $i.animate({
+                    "top": y - 180,
+                    "opacity": 0
+                },
+                3000,
+                function() {
+                    $i.remove();
+                });
+            });
+        });
+    </script>
+    
+
+  </body>
+</html>
