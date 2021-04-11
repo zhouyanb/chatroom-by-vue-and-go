@@ -72,8 +72,8 @@
                         if(valid){
                             // alert("登录成功");
                             //http://47.99.242.48:8080
-                            urllocal="http://127.0.0.1:60/login";
-                            url="http://47.99.242.48:60/login"
+                            let urllocal="http://127.0.0.1:60/login";
+                            // let url="http://47.99.242.48:60/login";
                             this.$ajax.post(urllocal,{username:this.form.username,password:this.form.password})
                             .then(function(response){
                                 console.log(response.data);

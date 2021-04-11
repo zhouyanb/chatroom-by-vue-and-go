@@ -69,8 +69,8 @@ export default{
                     if(valid){
                         console.log(that.form.font_email);
                         console.log(typeof(that.form.font_email));
-                        urllocal="http://127.0.0.1:60/code";
-                        url="http://47.99.242.48:60/code";
+                        let urllocal="http://127.0.0.1:60/code";
+                        // let url="http://47.99.242.48:60/code";
                         this.$ajax.post(urllocal,{flag:that.form.font_email})
                         .then(function(response){
                            console.log(response.data);
