@@ -73,7 +73,10 @@ func main() {
 		c.ShouldBind(&ppp)
 		flag := ppp.Flag
 		if flag == netcode {
-			file.FileOrder(filepath, "add", person.Name, person.Psw, person.Email)
+			exist,_:=file.FileOrder(filepath,"check",person.Name,person.Psw,person.Email)
+			if !exist{
+				file.FileOrder(filepath, "add", person.Name, person.Psw, person.Email)
+			}
 			c.JSON(200, gin.H{
 				"flag": "yes",
 			})
