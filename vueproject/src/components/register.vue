@@ -82,7 +82,9 @@
                 this.$refs[form].validate(
                     (valid) => {
                         if(valid){
-                           this.$ajax.post("http://47.99.242.48:60/register",{username:this.form.username,password:this.form.password,email:this.form.email})
+                            urllocal="http://127.0.0.1:60/register";
+                            url="http://47.99.242.48:60/register";
+                           this.$ajax.post(url,{username:this.form.username,password:this.form.password,email:this.form.email})
                            .then(function(response){
                                if(response){
                                    console.log(response);
