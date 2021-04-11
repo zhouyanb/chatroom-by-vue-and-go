@@ -50,6 +50,7 @@ export default{
         return{
             show:false,
             errshow:false,
+            frompath:'',
             form:{
                 font_email:'',
                 back_email:'',
@@ -69,24 +70,26 @@ export default{
                     if(valid){
                         console.log(that.form.font_email);
                         console.log(typeof(that.form.font_email));
-                        let urllocal="http://127.0.0.1:60/code";
+                        // let urllocal="http://127.0.0.1:60/code";
                         // let url="http://47.99.242.48:60/code";
-                        this.$ajax.post(urllocal,{flag:that.form.font_email})
-                        .then(function(response){
-                        //    console.log(response.data);
+                        // this.$ajax.post(urllocal,{flag:that.form.font_email})
+                        // .then(function(response){
+                        // //    console.log(response.data);
                            
-                           if(response.data["flag"]=='yes'){
-                               that.show=true;
-                           }else{
-                                that.errshow=true;
-                           }
+                        //    if(response.data["flag"]=='yes'){
+                        //        that.show=true;
+                        //    }else{
+                        //         that.errshow=true;
+                        //    }
+                        
                             
-                    }
-                    ,function(err){
-                        console.log(err);
-                    })
-                } else {
-                    console.log("no");
+                        // }
+                        //     ,function(err){
+                        //         console.log(err);
+                        //     })
+                        that.show = true;
+                    } else {
+                        console.log("no");
                     // return false;
                 }
                 }
@@ -95,7 +98,12 @@ export default{
         
         toinformation:function(){
             this.show=false;
-            this.$router.replace('/userinformation');
+            if(this.frompath === '/register'){
+                this.$router.replace('/userinformation');
+            } else {
+                this.$router.replace('/inputnewpasswd');
+            }
+            
         },
         goback:function(){
             this.$router.go(-1);
@@ -103,6 +111,17 @@ export default{
         reinput:function(){
             this.errshow=false;
         }
+    },
+    //vue-router的钩子函数 在渲染该组件对应的路由被confirm前调用
+    //不能获取this 因为在执行时组件实例还没有创建
+    // to 即将要进入目标的路由对象
+    // from 当前导航正要离开的路由
+    // next 为一个function
+    beforeRouteEnter(to , from , next){
+        next((vm) => {
+            // 通过vm来访问组件实例
+            vm.frompath = from.path;
+        });
     }
 }
 </script>

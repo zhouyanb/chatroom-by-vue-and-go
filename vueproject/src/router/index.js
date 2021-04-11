@@ -8,6 +8,7 @@ import userhome from "../components/userhome.vue"
 import userinformation from "../components/userinformation.vue"
 import checkemail from "../components/checkemail.vue"
 import findpassword from "../components/findpassword.vue"
+import inputnewpasswd from "../components/inputnewpasswd.vue"
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,11 @@ const routes = [
     path:'/findpassword',
     name:'findpassword',
     component:findpassword
+  },
+  {
+    path:'/inputnewpasswd',
+    name:'inputnewpasswd',
+    component:inputnewpasswd
   },
   {
     path:'/userinformation',

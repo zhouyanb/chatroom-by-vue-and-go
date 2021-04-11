@@ -92,7 +92,7 @@ export default{
                 //     console.log(err);
                 // })
                 this.show = false;
-                this.$router.replace('/findpasswordcheck');
+                this.$router.replace('/checkemail');
             } else {
                 this.open();
             }

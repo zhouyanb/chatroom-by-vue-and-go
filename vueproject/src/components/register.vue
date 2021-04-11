@@ -30,7 +30,7 @@
         </el-col>
     </el-row>
     <el-dialog title="提示" :visible.sync="show" width="30%" >
-            <span>注册成功,请完善个人信息</span>
+            <span>注册成功,请验证邮箱</span>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click.native="tologin">确定</el-button>
             </span>
@@ -82,17 +82,18 @@
                 this.$refs[form].validate(
                     (valid) => {
                         if(valid){
-                            let urllocal="http://127.0.0.1:60/register";
+                            // let urllocal="http://127.0.0.1:60/register";
                             // let url="http://47.99.242.48:60/register";
-                           this.$ajax.post(urllocal,{username:this.form.username,password:this.form.password,email:this.form.email})
-                           .then(function(response){
-                               if(response){
-                                   console.log(response);
-                                   that.show=true;
-                               } else {
-                                   that.errshow=true;
-                               }
-                           })
+                        //    this.$ajax.post(urllocal,{username:this.form.username,password:this.form.password,email:this.form.email})
+                        //    .then(function(response){
+                        //        if(response){
+                        //            console.log(response);
+                        //            that.show=true;
+                        //        } else {
+                        //            that.errshow=true;
+                        //        }
+                        //    })
+                        that.show =true;
                         } else {
                             console.log('error submit');
                             return false;
