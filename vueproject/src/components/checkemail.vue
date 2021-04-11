@@ -73,11 +73,13 @@ export default{
                         // let url="http://47.99.242.48:60/code";
                         this.$ajax.post(urllocal,{flag:that.form.font_email})
                         .then(function(response){
-                           console.log(response.data);
+                        //    console.log(response.data);
                            
                            if(response.data["flag"]=='yes'){
                                that.show=true;
-                           } 
+                           }else{
+                                that.errshow=true;
+                           }
                             
                     }
                     ,function(err){
