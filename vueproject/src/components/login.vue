@@ -20,6 +20,7 @@
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click.native="senddata('form')">登录</el-button>
+                            <el-button @click.native='find'>找回密码</el-button>
                             <el-button @click.native="back">返回</el-button>
                         </el-form-item>
                     </el-form>
@@ -96,6 +97,9 @@
             },
             back:function(){
                 this.$router.go(-1);
+            },
+            find:function(){
+                this.$router.replace('/findpassword');
             },
             tohome:function(){
                 this.show=false;
