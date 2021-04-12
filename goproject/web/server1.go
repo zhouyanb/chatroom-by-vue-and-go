@@ -70,12 +70,12 @@ func main() {
 	// })
 
 	server.POST("/checkmail", func(c *gin.Context) {
-		
+
 		c.ShouldBind(&ppp)
 		flag := ppp.Flag
 		if flag == netcode {
-			exist,_:=file.FileOrder(filepath,"check",person.Name,person.Psw,person.Email)
-			if !exist{
+			exist, _ := file.FileOrder(filepath, "check", person.Name, person.Psw, person.Email)
+			if !exist {
 				file.FileOrder(filepath, "add", person.Name, person.Psw, person.Email)
 			}
 			c.JSON(200, gin.H{
@@ -88,23 +88,32 @@ func main() {
 		}
 	})
 
-	server.POST("/findpassword",func(c *gin.Context){
+	server.POST("/findpassword", func(c *gin.Context) {
 		c.ShouldBind(&ppp)
 		// flag:=ppp.Email
-		_,emailexist:=file.FileOrder(filepath,"check","","",ppp.Email)
-		if !emailexist{
-			c.JSON(200,gin.H{
-				"flag":"no",
+		_, emailexist := file.FileOrder(filepath, "check", "", "", ppp.Email)
+		if !emailexist {
+			c.JSON(200, gin.H{
+				"flag": "no",
 			})
-		}else {
-			netcode=file.SendMail(ppp.Email)
+		} else {
+			netcode = file.SendMail(ppp.Email)
 		}
 	})
 
-	server.POST("/inputnewpasswd",func(c *gin.Context){
+	server.POST("/getpassword", func(c *gin.Context) {
 		c.ShouldBind(&ppp)
-		if ppp.Flag==netcode{
-			
+		// fmt.Println(netcode)
+		// fmt.Println(ppp.Flag)
+		if ppp.Flag == netcode {
+			file.FileOrder(filepath, "whatpsw", "", "", ppp.Email)
+			c.JSON(200, gin.H{
+				"flag": "yes",
+			})
+		} else {
+			c.JSON(200, gin.H{
+				"flag": "no",
+			})
 		}
 		// c.JSON()
 	})

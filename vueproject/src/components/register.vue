@@ -99,7 +99,7 @@
                                    that.show=true;
                                }
                            })
-                        that.show =true;
+                        // that.show =true;
                         } else {
                             console.log('error submit');
                             return false;

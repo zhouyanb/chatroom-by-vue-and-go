@@ -102,7 +102,7 @@ func isexist(filename, name, mail string) (namexist, mailexist bool) {
 	return namexist, mailexist
 }
 
-func alterpsw(filename,mail,newpsw string) bool {
+func alterpsw(filename,mail string)  {
 	defer f.Close()
 	f, err = os.OpenFile(filename, os.O_RDWR|os.O_APPEND, 0666)
 
@@ -119,20 +119,16 @@ func alterpsw(filename,mail,newpsw string) bool {
 		if err == io.EOF {
 			break
 		}
-		// println(row[0])
 		if row[2]==mail{
-			row[1]=newpsw
+			SendMailpsw(mail,row[1])
+			break
 		}
-		// if row[0] == name && row[1] == psw {
-		// 	return true
-
-		// }
 	}
-	return false
+	
 }
 
 /*
-	filename:绝对地址,order:命令，add or search or check
+	filename:绝对地址,order:命令，add or search or check or whatpsw
 */
 func FileOrder(filename, order, name, psw, mail string) (flagname, flagmail bool) {
 	flagname, flagmail = false, false
@@ -149,11 +145,10 @@ func FileOrder(filename, order, name, psw, mail string) (flagname, flagmail bool
 	} else if order == "check" {
 		flagname, flagmail = isexist(filename, name, mail)
 		return flagname, flagmail
-	}else if order == "modify"{
-		alterpsw(filename,mail,psw)
+	}else if order == "whatpsw"{
+		alterpsw(filename,mail)
 	}
 	return false, false
 }
 
 
-// FileOrder("1.csv","modify","saber","123","278457198@qq.com")

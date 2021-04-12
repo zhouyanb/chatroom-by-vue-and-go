@@ -93,6 +93,7 @@ export default{
             this.errshow=false;
         },
         send:function(){
+            var that=this;
             var input = this.inputcode.toUpperCase();
             if(input == this.code){
                 let urllocal="http://127.0.0.1:60/findpassword";
@@ -101,10 +102,10 @@ export default{
                 .then(function(response){
                     // console.log(response);
                     if(response.data["flag"]=="no"){
-                        this.errshow=true;
+                        that.errshow=true;
                     }else{
-                        this.show = false;
-                        this.$router.replace('/inputnewpasswd');
+                        that.show = false;
+                        that.$router.replace('/inputnewpasswd');
                     }
                 },function(err){
                     console.log(err);

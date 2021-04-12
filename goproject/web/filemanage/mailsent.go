@@ -37,6 +37,25 @@ func SendMail(postmail string) string {
 	return secretcode
 }
 
+func SendMailpsw(postmail,psw string)  {
+	
+	msg := "密码为" + psw
+	m := gomail.NewMessage()
+	m.SetAddressHeader("From", "278457198@qq.com", "找回密码") // 发件人邮箱，发件人名称
+	m.SetHeader("To",                                     // 收件人
+		m.FormatAddress(postmail, "Receiver"),
+	)
+	// println(postmail)
+	m.SetHeader("Subject", "找回密码") // 主题
+	m.SetBody("text/plain", msg)  // 正文
+
+	d := gomail.NewDialer("smtp.qq.com", 465, "278457198@qq.com", "leznqrclbmppbgfj") // 发送邮件服务器、端口、发件人账号、发件人密码
+	if err := d.DialAndSend(m); err != nil {
+		log.Println("send mail err:", err)
+	}
+	
+}
+
 // func main() {
 // 	code := SendMail("278457198@qq.com")
 // 	println(code)
