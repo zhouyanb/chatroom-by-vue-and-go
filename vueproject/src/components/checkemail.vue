@@ -70,9 +70,9 @@ export default{
                     if(valid){
                         console.log(that.form.font_email);
                         console.log(typeof(that.form.font_email));
-                        let urllocal="http://127.0.0.1:60/checkmail";
-                        // let url="http://47.99.242.48:60/checkmail";
-                        this.$ajax.post(urllocal,{flag:that.form.font_email})
+                        // let url="http://127.0.0.1:60/checkmail";
+                        let url="http://47.99.242.48:60/checkmail";
+                        this.$ajax.post(url,{flag:that.form.font_email})
                         .then(function(response){
                         //    console.log(response.data);
                            

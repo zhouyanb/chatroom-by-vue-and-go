@@ -82,9 +82,9 @@
                 this.$refs[form].validate(
                     (valid) => {
                         if(valid){
-                            let urllocal="http://127.0.0.1:60/register";
-                            // let url="http://47.99.242.48:60/register";
-                           this.$ajax.post(urllocal,{username:this.form.username,password:this.form.password,email:this.form.email})
+                            // let url="http://127.0.0.1:60/register";
+                            let url="http://47.99.242.48:60/register";
+                           this.$ajax.post(url,{username:this.form.username,password:this.form.password,email:this.form.email})
                            .then(function(response){
                                if(response.data["flagmail"]=="yes"){
                                 //    console.log(response);

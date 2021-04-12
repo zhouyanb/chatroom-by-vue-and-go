@@ -96,9 +96,9 @@ export default{
             var that=this;
             var input = this.inputcode.toUpperCase();
             if(input == this.code){
-                let urllocal="http://127.0.0.1:60/findpassword";
-                //let url="http://47.99.242.48:60/findpassword";
-                this.$ajax.post(urllocal,{email:this.form.email})
+                // let url="http://127.0.0.1:60/findpassword";
+                let url="http://47.99.242.48:60/findpassword";
+                this.$ajax.post(url,{email:this.form.email})
                 .then(function(response){
                     // console.log(response);
                     if(response.data["flag"]=="no"){

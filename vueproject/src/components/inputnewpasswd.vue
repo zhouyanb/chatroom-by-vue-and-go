@@ -51,9 +51,9 @@ export default{
                 (valid) => {
                     if(valid){
                         if(this.form.new_passwd === this.form.again_passwd){
-                            let urllocal="http://127.0.0.1:60/getpassword"
-                            // let url="http://47.99.242.48:60/getpassword"
-                            this.$ajax.post(urllocal,{flag:this.form.yzm})
+                            // let url="http://127.0.0.1:60/getpassword"
+                            let url="http://47.99.242.48:60/getpassword"
+                            this.$ajax.post(url,{flag:this.form.yzm})
                             .then(function(response){
                                 // console.log(response);
                                 if(response.data["flag"]=="yes"){
