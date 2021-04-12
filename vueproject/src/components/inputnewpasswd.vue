@@ -4,6 +4,9 @@
         <el-container>
             <el-col :offset="14">
                 <el-form ref="form" :model="form" label-width="100px" :rules="rules">
+                    <el-form-item label="输入验证码" prop="yzm">
+                        <el-input style="width:300px;" v-model="form.yzm" show-password></el-input>
+                    </el-form-item>
                     <el-form-item label="输入新密码" prop="new_passwd"> 
                         <el-input style="width:300px;" v-model="form.new_passwd" show-password></el-input>
                     </el-form-item>
@@ -24,6 +27,12 @@
                 <el-button type="primary" @click.native="tologin">确定</el-button>
             </span>
         </el-dialog>
+        <el-dialog title="提示" :visible.sync="errshow" width="30%" >
+            <span>验证码错误</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click.native="close">确定</el-button>
+            </span>
+        </el-dialog>
 </div>
 </template>
 
@@ -33,9 +42,11 @@ export default{
     data(){
         return{
             show:false,
+            errshow:false,
             form:{
                 new_passwd:'',
-                again_passwd:''
+                again_passwd:'',
+                yzm:'',
             },
             rules:{
                 new_passwd:[
@@ -62,13 +73,15 @@ export default{
                 (valid) => {
                     if(valid){
                         if(this.form.new_passwd === this.form.again_passwd){
-                            // this.$ajax.post("",{newpasswd:this.form.new_passwd})
-                            // .then(function(response){
-                            //     console.log(response);
-                            //     that.show = true;
-                            // },function(err){
-                            //     console.log(err);
-                            // })
+                            let urllocal="http://127.0.0.1:60/inputnewpasswd"
+                            // let url="http://47.99.242.48:60/inputnewpasswd"
+                            this.$ajax.post(urllocal,{password:this.form.new_passwd,flag:this.yzm})
+                            .then(function(response){
+                                console.log(response);
+                                that.show = true;
+                            },function(err){
+                                console.log(err);
+                            })
                             that.show = true;
                         } else {
                             this.open();
@@ -82,6 +95,9 @@ export default{
         },
         tologin:function(){
             this.$router.replace('/login');
+        },
+        close:function(){
+            this.errshow=false;
         }
     }
 }

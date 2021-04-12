@@ -1,4 +1,4 @@
-package web
+package main
 
 import (
 	"encoding/csv"
@@ -102,9 +102,10 @@ func isexist(filename, name, mail string) (namexist, mailexist bool) {
 	return namexist, mailexist
 }
 
-func alterpsw(filename,mail,newpsw string) bool {
+func alterpsw(filename, mail, newpsw string) bool {
 	defer f.Close()
-	f, err = os.OpenFile(filename, os.O_RDWR|os.O_APPEND, 0666)
+	var word []string
+	f, err = os.Open(filename)
 
 	if err != nil {
 		println("can not open the file ,err is %+v", err)
@@ -120,14 +121,18 @@ func alterpsw(filename,mail,newpsw string) bool {
 			break
 		}
 		// println(row[0])
-		if row[2]==mail{
-			row[1]=newpsw
+		if row[2] == mail {
+			println("find it")
+			word = []string{row[0], newpsw, row[2]}
+			f.Close()
+			break
 		}
-		// if row[0] == name && row[1] == psw {
-		// 	return true
-
-		// }
 	}
+	f, err = os.Open(filename)
+	s := csv.NewWriter(f)
+	s.Write(word)
+	// fmt.Println(word)
+	s.Flush()
 	return false
 }
 
@@ -149,11 +154,13 @@ func FileOrder(filename, order, name, psw, mail string) (flagname, flagmail bool
 	} else if order == "check" {
 		flagname, flagmail = isexist(filename, name, mail)
 		return flagname, flagmail
-	}else if order == "modify"{
-		alterpsw(filename,mail,psw)
+	} else if order == "modify" {
+		alterpsw(filename, mail, psw)
 	}
 	return false, false
 }
 
-
-// FileOrder("1.csv","modify","saber","123","278457198@qq.com")
+func main() {
+	FileOrder("1.csv","add","saber","suxiaobai","278457198@qq.com")
+	FileOrder("1.csv", "modify", "saber", "123", "278457198@qq.com")
+}

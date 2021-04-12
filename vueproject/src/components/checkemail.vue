@@ -70,23 +70,23 @@ export default{
                     if(valid){
                         console.log(that.form.font_email);
                         console.log(typeof(that.form.font_email));
-                        // let urllocal="http://127.0.0.1:60/code";
-                        // let url="http://47.99.242.48:60/code";
-                        // this.$ajax.post(urllocal,{flag:that.form.font_email})
-                        // .then(function(response){
-                        // //    console.log(response.data);
+                        let urllocal="http://127.0.0.1:60/checkmail";
+                        // let url="http://47.99.242.48:60/checkmail";
+                        this.$ajax.post(urllocal,{flag:that.form.font_email})
+                        .then(function(response){
+                        //    console.log(response.data);
                            
-                        //    if(response.data["flag"]=='yes'){
-                        //        that.show=true;
-                        //    }else{
-                        //         that.errshow=true;
-                        //    }
+                           if(response.data["flag"]=='yes'){
+                               that.show=true;
+                           }else{
+                                that.errshow=true;
+                           }
                         
                             
-                        // }
-                        //     ,function(err){
-                        //         console.log(err);
-                        //     })
+                        }
+                            ,function(err){
+                                console.log(err);
+                            })
                         that.show = true;
                     } else {
                         console.log("no");
@@ -99,7 +99,8 @@ export default{
         toinformation:function(){
             this.show=false;
             if(this.frompath === '/register'){
-                this.$router.replace('/userinformation');
+                // this.$router.replace('/userinformation');
+                 this.$router.replace('/home');
             } else {
                 this.$router.replace('/inputnewpasswd');
             }

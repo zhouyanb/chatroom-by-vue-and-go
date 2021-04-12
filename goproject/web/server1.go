@@ -16,6 +16,7 @@ type user struct {
 
 func main() {
 	var person user
+	var ppp user
 	var netcode string
 	filepath := "1.csv"
 	server := gin.Default()
@@ -27,7 +28,7 @@ func main() {
 
 	server.Use(cors.New(config))
 
-	//connet url
+	//login主页
 	server.POST("/login", func(ctx *gin.Context) {
 		// format json to person struct
 		ctx.BindJSON(&person)
@@ -62,14 +63,14 @@ func main() {
 		// netcode = file.SendMail(person.Email)
 	})
 
-	server.POST("/check", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"code": netcode,
-		})
-	})
+	// server.POST("/check", func(c *gin.Context) {
+	// 	c.JSON(200, gin.H{
+	// 		"code": netcode,
+	// 	})
+	// })
 
-	server.POST("/code", func(c *gin.Context) {
-		var ppp user
+	server.POST("/checkmail", func(c *gin.Context) {
+		
 		c.ShouldBind(&ppp)
 		flag := ppp.Flag
 		if flag == netcode {
@@ -85,6 +86,27 @@ func main() {
 				"flag": "no",
 			})
 		}
+	})
+
+	server.POST("/findpassword",func(c *gin.Context){
+		c.ShouldBind(&ppp)
+		// flag:=ppp.Email
+		_,emailexist:=file.FileOrder(filepath,"check","","",ppp.Email)
+		if !emailexist{
+			c.JSON(200,gin.H{
+				"flag":"no",
+			})
+		}else {
+			netcode=file.SendMail(ppp.Email)
+		}
+	})
+
+	server.POST("/inputnewpasswd",func(c *gin.Context){
+		c.ShouldBind(&ppp)
+		if ppp.Flag==netcode{
+			
+		}
+		// c.JSON()
 	})
 
 	// go Run

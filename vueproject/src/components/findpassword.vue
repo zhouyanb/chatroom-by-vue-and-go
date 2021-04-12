@@ -19,6 +19,12 @@
             <el-input style="width:200px;" v-model="inputcode" placeholder="不区分大小写"></el-input>
             <el-button type="primary" @click.native="send">确定</el-button>
         </el-dialog>
+        <el-dialog title="提示" :visible.sync="errshow" width="30%" >
+            <span>该邮箱未被注册！</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click.native="close">确定</el-button>
+            </span>
+    </el-dialog>
     </div>
 </template>
 
@@ -40,6 +46,7 @@ export default{
     data(){
         return {
             show:false,
+            errshow:false,
             code:'',
             inputcode:'',
             form:{
@@ -82,17 +89,28 @@ export default{
                 message:'验证码错误'
             });
         },
+        close:function () {
+            this.errshow=false;
+        },
         send:function(){
             var input = this.inputcode.toUpperCase();
             if(input == this.code){
-                // this.$ajax.post("",{email:this.form.email})
-                // .then(function(response){
-                //     console.log(response);
-                // },function(err){
-                //     console.log(err);
-                // })
-                this.show = false;
-                this.$router.replace('/checkemail');
+                let urllocal="http://127.0.0.1:60/findpassword";
+                //let url="http://47.99.242.48:60/findpassword";
+                this.$ajax.post(urllocal,{email:this.form.email})
+                .then(function(response){
+                    // console.log(response);
+                    if(response.data["flag"]=="no"){
+                        this.errshow=true;
+                    }else{
+                        this.show = false;
+                        this.$router.replace('/inputnewpasswd');
+                    }
+                },function(err){
+                    console.log(err);
+                })
+                // this.show = false;
+                // this.$router.replace('/checkemail');
             } else {
                 this.open();
             }
