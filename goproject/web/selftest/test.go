@@ -160,7 +160,7 @@ func FileOrder(filename, order, name, psw, mail string) (flagname, flagmail bool
 	return false, false
 }
 
-func main() {
-	FileOrder("1.csv","add","saber","suxiaobai","278457198@qq.com")
-	FileOrder("1.csv", "modify", "saber", "123", "278457198@qq.com")
-}
+// func main() {
+// 	FileOrder("1.csv","add","saber","suxiaobai","278457198@qq.com")
+// 	FileOrder("1.csv", "modify", "saber", "123", "278457198@qq.com")
+// }
