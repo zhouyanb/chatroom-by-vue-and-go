@@ -49,6 +49,7 @@ export default{
         }
         return{
             show:false,
+            url:'',
             errshow:false,
             frompath:'',
             form:{
@@ -70,21 +71,16 @@ export default{
                     if(valid){
                         console.log(that.form.font_email);
                         console.log(typeof(that.form.font_email));
-                        // let url="http://127.0.0.1:60/checkmail";
-                        let url="http://47.99.242.48:60/checkmail";
-                        this.$ajax.post(url,{flag:that.form.font_email})
+                        
+                        this.$ajax.post(this.url,{flag:that.form.font_email})
                         .then(function(response){
-                        //    console.log(response.data);
-                           
                            if(response.data["flag"]=='yes'){
                                that.show=true;
                            }else{
                                 that.errshow=true;
                            }
-                        
-                            
                         }
-                            ,function(err){
+                        ,function(err){
                                 console.log(err);
                             })
                         that.show = true;
@@ -97,20 +93,14 @@ export default{
         },
         
         toinformation:function(){
-            this.show=false;
-            if(this.frompath === '/register'){
-                // this.$router.replace('/userinformation');
-                 this.$router.replace('/home');
-            } else {
-                this.$router.replace('/inputnewpasswd');
-            }
-            
+            this.show = false;
+            this.$router.replace('/login');     
         },
         goback:function(){
             this.$router.go(-1);
         },
         reinput:function(){
-            this.errshow=false;
+            this.errshow = false;
         }
     },
     //vue-router的钩子函数 在渲染该组件对应的路由被confirm前调用
@@ -123,6 +113,13 @@ export default{
             // 通过vm来访问组件实例
             vm.frompath = from.path;
         });
+    },
+    mounted(){
+        if(this.frompath === '/register'){
+            this.url = 'http://47.99.242.48:60/checkmail';
+        } else {
+            this.url = 'http://47.99.242.48:60/getpassword';
+        }
     }
 }
 </script>

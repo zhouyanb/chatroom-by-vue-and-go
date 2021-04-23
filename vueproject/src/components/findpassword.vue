@@ -20,7 +20,7 @@
             <el-button type="primary" @click.native="send">确定</el-button>
         </el-dialog>
         <el-dialog title="提示" :visible.sync="errshow" width="30%" >
-            <span>该邮箱未被注册！</span>
+            <span>该邮箱未被注册!</span>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click.native="close">确定</el-button>
             </span>
@@ -105,13 +105,11 @@ export default{
                         that.errshow=true;
                     }else{
                         that.show = false;
-                        that.$router.replace('/inputnewpasswd');
+                        that.$router.replace('/checkemail');
                     }
                 },function(err){
                     console.log(err);
                 })
-                // this.show = false;
-                // this.$router.replace('/checkemail');
             } else {
                 this.open();
             }
