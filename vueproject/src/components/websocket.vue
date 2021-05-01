@@ -9,7 +9,8 @@ export default{
     name:'websocket',
     data(){
         return {
-            path:'ws://47.99.242.48:7777/ws',
+            // path:'ws://47.99.242.48:7777/ws',
+            path:"ws://127.0.0.1:61/ws?uid=2"+"&to_uid=1",
             socket:{}
         }
     },
@@ -24,13 +25,17 @@ export default{
         error:function(event){
             console.log(event);
         },
-        open:function(event){
+        open:function(){
+            this.socket.send('hi');
+            
             console.log('连接成功');
         },
         message:function(event){
+            console.log(event);
             console.log(event.data);
         },
         close:function(event){
+            console.log(event)
             console.log('连接关闭');
         }
     },

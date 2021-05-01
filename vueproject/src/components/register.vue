@@ -127,7 +127,7 @@
 }
 .registerform {
     
-    height: 315px;
+    height: 250px;
     width: 450px;
     display: flex;
     justify-content: center;
