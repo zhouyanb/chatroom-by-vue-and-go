@@ -4,9 +4,7 @@
         <el-container>
             <el-col :offset="14">
                 <el-form ref="form" :model="form" label-width="80px" :rules="rules">
-                    <el-form-item label="邮箱验证" prop="font_email"> 
-                        <el-input style="width:300px;" v-model="form.font_email"></el-input>
-                    </el-form-item>
+                    <formitem :label="label" :prop='prop' @child-event='get_email_child_data'></formitem>
                     <el-form-item>
                         <el-button type="primary" @click.native="check('form')">确定</el-button>
                         <el-button @click.native="goback">返回</el-button>
@@ -31,6 +29,7 @@
 </template>
 
 <script>
+import formitem from './formitem.vue'
 export default{
     name:'checkemail',
     data(){
@@ -52,6 +51,8 @@ export default{
             url:'',
             errshow:false,
             frompath:'',
+            label:'邮箱验证',
+            prop:'font_email',
             form:{
                 font_email:'',
                 back_email:'',
@@ -63,7 +64,13 @@ export default{
             }
         }
     },
+    components:{
+        formitem
+    },
     methods:{
+        get_email_child_data:function(data){
+            this.form.font_email = data;
+        },
         check:function(form){
             var that = this;
             this.$refs[form].validate(

@@ -12,12 +12,8 @@
                 </div>
                 <div class="loginform">
                     <el-form ref="form" :model="form" label-width="80px" :rules="rules">
-                        <el-form-item label="用户名" prop="username">
-                            <el-input style="width:300px;" v-model="form.username"></el-input>
-                        </el-form-item>
-                        <el-form-item label="密码" prop="password">
-                            <el-input style="width:300px" v-model="form.password" show-password></el-input>
-                        </el-form-item>
+                        <formitem :label="label.user" :prop="prop.user" @child-event='get_user_child_data'></formitem>
+                        <formitem :label="label.passwd" :prop="prop.passwd" @child-event='get_passwd_child_data'></formitem>
                         <el-form-item>
                             <el-button type="primary" @click.native="senddata('form')">登录</el-button>
                             <el-button @click.native='find'>找回密码</el-button>
@@ -43,12 +39,21 @@
 </template>
 
 <script>
+import formitem from './formitem.vue'
     export default{
         name:'login',
         data(){
             return{
                 show:false,
                 errshow:false,
+                label:{
+                    user:'用户名',
+                    passwd:'密码'
+                },
+                prop:{
+                    user:'username',
+                    passwd:'password'
+                },
                 form:{
                     username:'',
                     password:''
@@ -65,7 +70,17 @@
                 }
             }
         },
+        components:{
+            formitem
+            
+        },
         methods:{
+            get_user_child_data:function(data){
+                this.form.username = data;
+            },
+            get_passwd_child_data:function(data){
+                this.form.password = data;
+            },
             senddata:function(form){
                 var that = this;
                 this.$refs[form].validate(
