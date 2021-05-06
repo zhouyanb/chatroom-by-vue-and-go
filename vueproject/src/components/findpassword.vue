@@ -4,7 +4,9 @@
         <el-col :offset="9">
             <el-container>
                 <el-form ref="form" :model="form" label-width="80px" :rules="rules"> 
-                    <formitem :label="label" :prop="prop" @child-event='get_email_child_data'></formitem>
+                    <el-form-item label="找回密码" prop="email">
+                        <el-input style="width:300px;" placeholder="请输入邮箱地址" v-model="form.email"></el-input>
+                    </el-form-item>
                     <el-form-item>
                         <el-button type="primary" @click.native="createcode('form')">确定</el-button>
                     </el-form-item>
@@ -27,19 +29,18 @@
 </template>
 
 <script>
-// document.oncontextmenu = function(){
-//     return false;
-// }
-// document.onkeydown = function(){
-//     if (event.ctrlKey && window.event.keyCode==67){ 
-// 		return false; 
-// 	} 
-// 	if (event.ctrlKey && window.event.keyCode==86){ 
-// 		return false; 
-// 	} 
+document.oncontextmenu = function(){
+    return false;
+}
+document.onkeydown = function(){
+    if (event.ctrlKey && window.event.keyCode==67){ 
+		return false; 
+	} 
+	if (event.ctrlKey && window.event.keyCode==86){ 
+		return false; 
+	} 
 
-// }
-import formitem from './formitem.vue'
+}
 export default{
     name:'findpassword',
     data(){
@@ -48,8 +49,6 @@ export default{
             errshow:false,
             code:'',
             inputcode:'',
-            label:'找回密码',
-            prop:'email',
             form:{
                 email:''
             },
@@ -61,13 +60,7 @@ export default{
             }
         }
     },
-    components:{
-        formitem
-    },
     methods:{
-        get_email_child_data:function(data){
-            this.form.email = data;
-        },
         createcode:function(form){
             // var that = this;
             this.$refs[form].validate(
