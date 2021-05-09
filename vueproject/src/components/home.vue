@@ -46,15 +46,36 @@ export default{
         return{
             friends:['zyb','cw'],
             message:'',
-            messagelist:[]
+            messagelist:[],
+            path:"ws://127.0.0.1:61/ws",
+            socket:{}
         }
     },
     methods:{
+        initws:function(){
+            this.socket = new WebSocket(this.path);
+            this.socket.onopen=this.onopen;
+            this.socket.onerror=this.onerror;
+            this.socket.onmessage=this.onmessage;
+        },
+        onopen:function(){
+            console.log('连接成功');
+            this.socket.send({username:this.$store.state.username})
+        },
+        onerror:function(event){
+            console.log(event);
+        },
+        onmessage:function(event){
+            console.log(event.data);
+        },
         putmessage:function(){
             var messageobj={username:this.$store.state.username, message: this.message};
             this.messagelist.push(messageobj);
             this.message='';
         }
+    },
+    mounted(){
+        this.initws();
     }
 }
 </script>
