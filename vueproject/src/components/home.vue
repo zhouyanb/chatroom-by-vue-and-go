@@ -47,7 +47,7 @@ export default{
             friends:['zyb','cw'],
             message:'',
             messagelist:[],
-            path:"ws://127.0.0.1:61/ws",
+            path:"ws://127.0.0.1:60/ws",
             socket:{}
         }
     },
@@ -60,7 +60,10 @@ export default{
         },
         onopen:function(){
             console.log('连接成功');
-            this.socket.send({username:this.$store.state.username})
+            // this.socket.send({username:this.$store.state.username})
+            var username="123";
+            var json=JSON.stringify(username);
+            this.socket.send(json);
         },
         onerror:function(event){
             console.log(event);
@@ -75,6 +78,12 @@ export default{
         }
     },
     mounted(){
+        // this.$ajax.post('http://127.0.0.1:60/test',{username:'zyb'})
+        // .then((response) => {
+        //     console.log(response);
+        // },(err) => {
+        //     console.log(err);
+        // });
         this.initws();
     }
 }
