@@ -51,7 +51,7 @@ export default{
     },
     methods:{
         putmessage:function(){
-            var messageobj={username:'zyb', message: this.message};
+            var messageobj={username:this.$store.state.username, message: this.message};
             this.messagelist.push(messageobj);
             this.message='';
         }
