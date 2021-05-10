@@ -30,9 +30,9 @@ type Client struct {
 // Message is return msg
 // Message 用来管理发送的信息
 type Message struct {
-	Sender    string `json:"sender,omitempty"`
+	Sender string `json:"sender,omitempty"`
 	// Recipient string `json:"recipient,omitempty"`
-	Content   string `json:"content,omitempty"`
+	Content string `json:"content,omitempty"`
 }
 
 // Manager define a ws server manager
@@ -46,13 +46,15 @@ var Manager = ClientManager{
 
 // Start is  项目运行前, 协程开启start -> go Manager.Start()
 func (manager *ClientManager) Start() {
-	var message []byte
 	for {
 		log.Println("<---管道通信--->")
 		select {
 		case conn := <-Manager.Register:
 			log.Printf("新用户加入:%v", conn.ID)
-			message = []byte("新用户加入：" + conn.ID)
+			// message = []byte("sender:avalon,content:(新用户加入+conn.ID)")
+			// MessageStruct := Message{}
+			// json.Unmarshal(message, &MessageStruct)
+			message, _ := json.Marshal(&Message{Sender: "avalon", Content: "新用户加入:" + conn.ID})
 			Manager.Clients[conn.ID] = conn
 			/*jsonMessage, _ := json.Marshal(&Message{Content: "Successful connection to socket service"})
 			conn.Send <- jsonMessage*/
@@ -63,7 +65,10 @@ func (manager *ClientManager) Start() {
 
 		case conn := <-Manager.Unregister:
 			log.Printf("用户离开:%v", conn.ID)
-			message = []byte(conn.ID + "用户离开")
+			// message = []byte(conn.ID + "用户离开")
+			// MessageStruct := Message{}
+			// json.Unmarshal(message, &MessageStruct)
+			message, _ := json.Marshal(&Message{Sender: "avalon", Content: conn.ID + "用户离开"})
 			for _, conn := range Manager.Clients {
 				conn.Send <- message
 			}

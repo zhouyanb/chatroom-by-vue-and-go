@@ -2,19 +2,20 @@ package main
 
 import (
 	file "web/filemanage"
+	ws "web/ws"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
-type user1 struct {
+type user struct {
 	Name  string `json:"username"`
 	Psw   string `json:"Password"`
 	Email string `json:"email"`
 	Flag  string `json:"flag"`
 }
 
-func mai1n() {
+func main() {
 	var person user
 	var ppp user
 	var netcode string
@@ -32,13 +33,13 @@ func mai1n() {
 	server.POST("/login", func(ctx *gin.Context) {
 		// format json to person struct
 		ctx.BindJSON(&person)
-
 		flag, _ := file.FileOrder(filepath, "search", person.Name, person.Psw, person.Email)
 		ctx.JSON(200, gin.H{
 			"flag": flag,
 		})
 	})
-
+	go ws.Manager.Start()
+	server.GET("/ws", ws.WsHandler)
 	//url with register endding
 	server.POST("/register", func(c *gin.Context) {
 		c.BindJSON(&person)
@@ -59,15 +60,7 @@ func mai1n() {
 			})
 			netcode = file.SendMail(person.Email)
 		}
-		// onperson = person
-		// netcode = file.SendMail(person.Email)
 	})
-
-	// server.POST("/check", func(c *gin.Context) {
-	// 	c.JSON(200, gin.H{
-	// 		"code": netcode,
-	// 	})
-	// })
 
 	server.POST("/checkmail", func(c *gin.Context) {
 
@@ -87,7 +80,6 @@ func mai1n() {
 			})
 		}
 	})
-
 	server.POST("/findpassword", func(c *gin.Context) {
 		c.ShouldBind(&ppp)
 		// flag:=ppp.Email
@@ -100,7 +92,6 @@ func mai1n() {
 			netcode = file.SendMail(ppp.Email)
 		}
 	})
-
 	server.POST("/getpassword", func(c *gin.Context) {
 		c.ShouldBind(&ppp)
 		// fmt.Println(netcode)
@@ -115,7 +106,6 @@ func mai1n() {
 				"flag": "no",
 			})
 		}
-		// c.JSON()
 	})
 
 	// go Run
