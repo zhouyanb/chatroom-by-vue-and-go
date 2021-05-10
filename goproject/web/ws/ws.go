@@ -31,7 +31,7 @@ type Client struct {
 // Message 用来管理发送的信息
 type Message struct {
 	Sender    string `json:"sender,omitempty"`
-	Recipient string `json:"recipient,omitempty"`
+	// Recipient string `json:"recipient,omitempty"`
 	Content   string `json:"content,omitempty"`
 }
 
@@ -46,21 +46,28 @@ var Manager = ClientManager{
 
 // Start is  项目运行前, 协程开启start -> go Manager.Start()
 func (manager *ClientManager) Start() {
+	var message []byte
 	for {
 		log.Println("<---管道通信--->")
 		select {
 		case conn := <-Manager.Register:
 			log.Printf("新用户加入:%v", conn.ID)
-			
-			conn.Send<-([]byte("新用户加入：" + conn.ID))
-			// Manager.Broadcast <- []byte("新用户加入：" + conn.ID)
+			message = []byte("新用户加入：" + conn.ID)
 			Manager.Clients[conn.ID] = conn
-			jsonMessage, _ := json.Marshal(&Message{Content: "Successful connection to socket service"})
-			conn.Send <- jsonMessage
+			/*jsonMessage, _ := json.Marshal(&Message{Content: "Successful connection to socket service"})
+			conn.Send <- jsonMessage*/
+			for _, conn := range Manager.Clients {
+				conn.Send <- message
+				//  fmt.Println(conn.ID)
+			}
+
 		case conn := <-Manager.Unregister:
 			log.Printf("用户离开:%v", conn.ID)
-			// Manager.Broadcast <- []byte(conn.ID + "用户离开")
-			conn.Send<-[]byte(conn.ID + "用户离开")
+			message = []byte(conn.ID + "用户离开")
+			for _, conn := range Manager.Clients {
+				conn.Send <- message
+			}
+
 			if _, ok := Manager.Clients[conn.ID]; ok {
 				jsonMessage, _ := json.Marshal(&Message{Content: "A socket has disconnected"})
 				conn.Send <- jsonMessage
@@ -70,6 +77,7 @@ func (manager *ClientManager) Start() {
 		case message := <-Manager.Broadcast:
 			MessageStruct := Message{}
 			json.Unmarshal(message, &MessageStruct)
+			// msgSend(&message)
 			for _, conn := range Manager.Clients {
 				select {
 				case conn.Send <- message:
@@ -82,9 +90,6 @@ func (manager *ClientManager) Start() {
 	}
 }
 
-// func creatId(uid, touid string) string {
-// 	return uid + "_" + touid
-// }
 func (c *Client) Read() {
 	defer func() {
 		Manager.Unregister <- c
@@ -133,7 +138,6 @@ func WsHandler(c *gin.Context) {
 	}
 	conn.PongHandler()
 	_, ass, err := conn.ReadMessage()
-	// fmt.Println(string(ass))
 	if err != nil {
 		return
 	}

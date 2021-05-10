@@ -19,7 +19,7 @@ func main() {
 	var person user
 	var ppp user
 	var netcode string
-	filepath := "1.csv"
+	filepath := "/var/www/localdata/id.csv"
 	server := gin.Default()
 
 	//allow all request
