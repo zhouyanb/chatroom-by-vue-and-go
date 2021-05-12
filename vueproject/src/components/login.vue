@@ -98,7 +98,7 @@ import {mapMutations} from 'vuex'
                                 if(response.data['flag']==true){
                                     that.show=true;
                                     var uid = '00001';
-                                    var username = 'zyb';
+                                    var username = that.form.username;
                                     that.get_user_data({
                                         uid:uid,
                                         name:username

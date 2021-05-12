@@ -7,10 +7,11 @@
                 <el-menu :default-openeds="['1']" background-color="#7eb2e6" class="list">
                     <el-submenu index="1">
                         <template slot="title">
-                            <span>我的好友</span>
+                            <i class="el-icon-user-solid"></i>
+                            <span>在线用户</span>
                         </template> 
                         <el-menu-item-group>
-                            <el-menu-item v-for="item in friends" v-bind:key="item.index"><router-link :to="{name:'userhome',params:{username:item}}" class="el-icon-user"></router-link>  {{ item }} </el-menu-item>
+                            <el-menu-item v-for="item in userlist" v-bind:key="item.index"><router-link :to="{name:'userhome',params:{username:item}}" class="el-icon-user"></router-link>  {{ item }} </el-menu-item>
     
                         </el-menu-item-group>
                     </el-submenu>
@@ -18,13 +19,18 @@
             </el-aside>
             <el-container>
                 <el-main id='main'>
-                    <div v-for="item in messagelist" :key="item.index">
-                        <el-tag effect="Plain">{{ item.message }}</el-tag><span> : {{ item.username }}</span>    
+                    <div v-for="item,index in messagelist" :key="item.index">
+                        <div v-bind:style="[showlist[index] ? right_style : no_style]">
+                            <el-tag effect="Plain">{{ item.content }}</el-tag><span> : {{ item.sender }}</span>
+                        </div>
+                        <div v-bind:style="[!showlist[index] ? left_style : no_style]">
+                            <span>{{ item.sender }} : </span><el-tag effect='Plain'>{{ item.content }}</el-tag>
+                        </div>    
                     </div>    
                 </el-main> 
                 <el-footer height="150px">
                     <div style="height:110px; width:700px;">
-                        <el-input type="textarea" v-model="message" @keyup.enter.native="putmessage"></el-input>
+                        <el-input type="textarea" v-model="content" @keyup.enter.native="putmessage"></el-input>
                     </div>
                     <div class="buttonbox">
                         <el-button type="primary" size="mini" @click.native="putmessage">发送</el-button>
@@ -44,11 +50,22 @@ export default{
     name:'home',
     data(){
         return{
-            friends:['zyb','cw'],
-            message:'',
+            content:'',
             messagelist:[],
-            path:"ws://127.0.0.1:60/ws",
-            socket:{}
+            userlist:['zyb'],
+            path:"ws://47.99.242.48:60/ws",
+            socket:{},
+            right_style:{
+                clear:'both'
+            },
+            left_style:{
+                clear:'both',
+                float:'left'
+            },
+            no_style:{
+                display:'none'
+            },
+            showlist:[]
         }
     },
     methods:{
@@ -61,7 +78,7 @@ export default{
         onopen:function(){
             console.log('连接成功');
             // this.socket.send({username:this.$store.state.username})
-            var username="123";
+            var username=this.$store.state.username;
             var json=JSON.stringify(username);
             this.socket.send(json);
         },
@@ -69,12 +86,38 @@ export default{
             console.log(event);
         },
         onmessage:function(event){
-            console.log(event.data);
+            // console.log(event.data);
+            var messageobj = JSON.parse(event.data);
+            if(messageobj.sender == 'avalon'){
+                // var user = messageobj.content.split(':')[1];
+                this.$message(messageobj.content);
+                // console.log(messageobj);
+                
+            }
+            else if(messageobj.sender == 'Invisible Air'){
+                for(var i=0;i<messageobj.content.length;i++){
+                    this.userlist.push(messageobj.content[i]);
+                }
+            }
+            else {
+                this.messagelist.push(messageobj);
+                if(document.hidden){
+                    document.getElementsByTagName('title')[0].innerText='you have a message';
+                }else {
+                    document.getElementsByTagName('title')[0].innerText='vueproject';
+                }
+                if(messageobj.sender == this.$store.state.username){
+                   this.showlist.push(true);
+                } else {
+                    this.showlist.push(false);
+                }
+            }
         },
         putmessage:function(){
-            var messageobj={username:this.$store.state.username, message: this.message};
-            this.messagelist.push(messageobj);
-            this.message='';
+            var messageobj={sender:this.$store.state.username, content: this.content};
+            var json = JSON.stringify(messageobj);
+            this.socket.send(json);
+            this.content = '';
         }
     },
     mounted(){
@@ -85,6 +128,7 @@ export default{
         //     console.log(err);
         // });
         this.initws();
+        document.getElementsByTagName('title')[0].innerText='vueproject';
     }
 }
 </script>
