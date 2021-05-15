@@ -51,11 +51,12 @@ func (manager *ClientManager) Start() {
 		select {
 		case conn := <-Manager.Register:
 			log.Printf("新用户加入:%v", conn.ID)
-			// message = []byte("sender:avalon,content:(新用户加入+conn.ID)")
-			// MessageStruct := Message{}
-			// json.Unmarshal(message, &MessageStruct)
 			message, _ := json.Marshal(&Message{Sender: "avalon", Content: "新用户加入:" + conn.ID})
 			Manager.Clients[conn.ID] = conn
+			for key:=range manager.Clients{
+				message, _ := json.Marshal(&Message{Sender: "Invisible Air", Content: key})
+				conn.Send<-message
+			}
 			/*jsonMessage, _ := json.Marshal(&Message{Content: "Successful connection to socket service"})
 			conn.Send <- jsonMessage*/
 			for _, conn := range Manager.Clients {
