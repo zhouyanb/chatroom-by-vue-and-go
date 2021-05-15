@@ -54,8 +54,6 @@ export default{
             messagelist:[],
             userlist:[],
             path:"ws://47.99.242.48:60/ws",
-            // path:"ws://127.0.0.1:60/ws",
-
             socket:{},
             right_style:{
                 clear:'both'
