@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="mainbox">
         <div style="height: 50px"></div>
-        <el-col :offset="4">
+        <el-col>
         <el-container>
             <el-aside width="200px">
                 <el-menu :default-openeds="['1']" background-color="#7eb2e6" class="list">
@@ -52,7 +52,7 @@ export default{
         return{
             content:'',
             messagelist:[],
-            userlist:['zyb'],
+            userlist:[],
             path:"ws://47.99.242.48:60/ws",
             socket:{},
             right_style:{
@@ -95,9 +95,8 @@ export default{
                 
             }
             else if(messageobj.sender == 'Invisible Air'){
-                for(var i=0;i<messageobj.content.length;i++){
-                    this.userlist.push(messageobj.content[i]);
-                }
+                this.userlist.push(messageobj.content);
+                console.log(messageobj)
             }
             else {
                 this.messagelist.push(messageobj);
@@ -134,6 +133,12 @@ export default{
 </script>
 
 <style>
+/* body{
+    background-color: rgba(0, 0, 0, .15);
+} */
+.mainbox {
+    margin: 0 0 0 295px;
+}
 .el-container {
     height: 600px;
     width: 900px;
@@ -141,7 +146,7 @@ export default{
 .el-footer {
     
     /* text-align: center; */
-    /* background-color: #99CCFF; */
+    background-color: white;
     /* box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1); */
     border: none;
     padding: 0%;
@@ -157,6 +162,7 @@ export default{
     
     /* background-color: #3c9dc0; */
     line-height: 60px;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04) */
 }
 .list {
     height: 600px;
@@ -173,5 +179,7 @@ export default{
     line-height: 0%;
     text-align: right;
 }
-
+.el-button {
+    margin: 0 10px 0 0;
+}
 </style>

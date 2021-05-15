@@ -1,16 +1,14 @@
 <template>
     <div>
         <div style="height:200px;"></div>
-        <el-col :offset="9">
-            <el-container>
+        <div class='main_find_box'>
                 <el-form ref="form" :model="form" label-width="80px" :rules="rules"> 
                     <formitem :label="label" :prop="prop" @child-event='get_email_child_data'></formitem>
                     <el-form-item>
                         <el-button type="primary" @click.native="createcode('form')">确定</el-button>
                     </el-form-item>
                 </el-form>
-            </el-container>
-        </el-col>
+        </div>
         <el-dialog title="验证" :visible.sync="show" width="30%">
             <span style="font-size:20px; color:rgb(11, 145, 145);">请输入验证码:{{ code }}</span>
             <br>
@@ -126,5 +124,11 @@ export default{
 </script>
 
 <style>
+.main_find_box {
+    margin: 0 0 0 490px;
+}
+.el-form {
+    height: 300px;
+}
 
 </style>

@@ -1,8 +1,8 @@
 <template>
     <div>
         <div style="height: 250px"></div>
-        <el-container>
-            <el-col :offset="14">
+        
+            <div class='main_check_box'>
                 <el-form ref="form" :model="form" label-width="80px" :rules="rules">
                     <formitem :label="label" :prop='prop' @child-event='get_email_child_data'></formitem>
                     <el-form-item>
@@ -11,8 +11,8 @@
                     </el-form-item>
                 </el-form>
 
-            </el-col>
-        </el-container>
+            </div>
+        
         <el-dialog title="成功" :visible.sync="show" width="30%">
             <span>验证成功</span>
             <span slot="footer" class="dialog-footer">
@@ -132,5 +132,7 @@ export default{
 </script>
 
 <style>
-
+.main_check_box {
+    margin: 0 0 0 490px;
+}
 </style>
