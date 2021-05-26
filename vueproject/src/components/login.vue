@@ -2,10 +2,9 @@
     <div>
         <el-row>
             <el-col>
-                <div class="top"></div>
+                <div class="l-top"></div>
             </el-col>
         </el-row>
-        
             <div class="main_login_box">
                 <div class="formtitle">
                         <i class="el-icon-s-custom"></i>
@@ -138,16 +137,16 @@ import {mapMutations} from 'vuex'
 <style>
 .main_login_box {
     width: 500px;
-    margin: 0 0 0 490px;
+    margin: 0 0 0 500px;
 }
-.top {
-    height: 100px;
+.l-top {
+    height: 150px;
 }
 .loginform {
-    
+    margin: 0 0 0 28px;
     height: 200px;
     width: 450px;
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
    

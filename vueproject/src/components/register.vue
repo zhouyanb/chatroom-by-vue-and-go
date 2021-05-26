@@ -147,9 +147,10 @@ import formitem from './formitem.vue'
 }
 .registerform {
     
+    margin: 0 0 0 28px;
     height: 250px;
     width: 450px;
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     align-items: center;
    
