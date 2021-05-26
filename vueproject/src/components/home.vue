@@ -82,7 +82,8 @@ export default{
         },
         onopen:function(){
             console.log('连接成功');
-            this.socket.send({username:this.$store.state.username})
+            console.log(this.$store.state.username)
+            // this.socket.send({username:this.$store.state.username})
             var username=this.$store.state.username;
             // var username="saber";
             var json=JSON.stringify(username);
@@ -95,14 +96,15 @@ export default{
             // console.log(event.data);
             var messageobj = JSON.parse(event.data);
             if(messageobj.sender == 'avalon'){
+                console.log(messageobj)
                 // var user = messageobj.content.split(':')[1];
                 this.$message(messageobj.content);
                 // console.log(messageobj);
                 
             }
             else if(messageobj.sender == 'Invisible Air'){
+                console.log(messageobj.content)
                 this.userlist.push(messageobj.content);
-                console.log(messageobj)
             }
             else {
                 this.messagelist.push(messageobj);

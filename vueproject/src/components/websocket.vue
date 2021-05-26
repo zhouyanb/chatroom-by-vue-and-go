@@ -26,8 +26,6 @@ export default{
             console.log(event);
         },
         open:function(){
-            this.socket.send('hi');
-            
             console.log('连接成功');
         },
         message:function(event){

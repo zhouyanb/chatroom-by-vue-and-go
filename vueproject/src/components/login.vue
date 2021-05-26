@@ -141,7 +141,7 @@ import {mapMutations} from 'vuex'
     margin: 0 0 0 490px;
 }
 .top {
-    height: 150px;
+    height: 100px;
 }
 .loginform {
     
