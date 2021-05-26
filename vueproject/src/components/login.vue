@@ -82,6 +82,17 @@ import {mapMutations} from 'vuex'
             get_passwd_child_data:function(data){
                 this.form.password = data;
             },
+            setCookies:function (form) {
+                var exdate=new Date();
+                exdate.setTime(exdate.getTime()+24*60*60*1000);
+                // window.document.cookie =
+                // "userName" + "=" + form.username + ";path=/;expires=" + exdate.toGMTString();
+                this.$cookies.set("name",form.username);
+            },
+            loadCookies:function(){
+                console.log(this.$cookies.get("name"));
+                return this.$cookies.get("name");
+            },
             senddata:function(form){
                 var that = this;
                 this.$refs[form].validate(
@@ -98,6 +109,7 @@ import {mapMutations} from 'vuex'
                                     that.show=true;
                                     var uid = '00001';
                                     var username = that.form.username;
+                                    that.setCookies(that.form);
                                     that.get_user_data({
                                         uid:uid,
                                         name:username
@@ -129,6 +141,12 @@ import {mapMutations} from 'vuex'
             },
             relogin:function(){
                 this.errshow=false;
+            }
+        },
+        mounted(){
+            if (this.loadCookies()){
+                this.show=true;
+                this.tohome();
             }
         }
     }

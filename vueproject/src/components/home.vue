@@ -80,12 +80,16 @@ export default{
             this.socket.onerror=this.onerror;
             this.socket.onmessage=this.onmessage;
         },
+        getCookie:function(){
+            // console.log(this.$cookies.get("name"));
+            return this.$cookies.get("name");
+        },
         onopen:function(){
             console.log('连接成功');
             console.log(this.$store.state.username)
             // this.socket.send({username:this.$store.state.username})
-            var username=this.$store.state.username;
-            // var username="saber";
+            // var username=this.$store.state.username;
+            var username=this.getCookie();
             var json=JSON.stringify(username);
             this.socket.send(json);
         },
@@ -121,7 +125,7 @@ export default{
             }
         },
         putmessage:function(){
-            var messageobj={sender:this.$store.state.username, content: this.content};
+            var messageobj={sender:this.getCookie(), content: this.content};
             var json = JSON.stringify(messageobj);
             this.socket.send(json);
             this.content = '';
@@ -134,6 +138,13 @@ export default{
         // },(err) => {
         //     console.log(err);
         // });
+        if(this.getCookie()==null){
+            //在这里填入弹出窗口让用户登录，点击确定跳转到登录页面
+
+            console.log("fuck!");
+            window.stop();
+            document.execCommand("Stop");
+        }
         this.initws();
         document.getElementsByTagName('title')[0].innerText='vueproject';
     }

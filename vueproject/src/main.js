@@ -5,13 +5,14 @@ import element from './element/index'
 import axios from 'axios'
 import router from './router'
 import store from './store'
-
-
+import cookies from 'vue-cookies'
 
 
 Vue.use(element)
 Vue.config.productionTip = false
+Vue.prototype.$cookies=cookies
 Vue.prototype.$ajax=axios
+
 new Vue({
   router,
   store,
