@@ -45,6 +45,12 @@
             </el-container>
         </el-container>
         </el-col>
+        <el-dialog title="提示" :visible.sync="show" width="30%" >
+            <span>登录已过期，请重新登录</span>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click.native="tologin">确定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -70,7 +76,8 @@ export default{
             no_style:{
                 display:'none'
             },
-            showlist:[]
+            showlist:[],
+            show:false
         }
     },
     methods:{
@@ -129,6 +136,10 @@ export default{
             var json = JSON.stringify(messageobj);
             this.socket.send(json);
             this.content = '';
+        },
+        tologin:function(){
+            this.show = false
+            this.$router.replace('/login');
         }
     },
     mounted(){
@@ -140,11 +151,12 @@ export default{
         // });
         if(this.getCookie()==null){
             //在这里填入弹出窗口让用户登录，点击确定跳转到登录页面
-
+            this.show = true;
             console.log("fuck!");
             window.stop();
             document.execCommand("Stop");
         }
+        // this.show = true
         this.initws();
         document.getElementsByTagName('title')[0].innerText='vueproject';
     }

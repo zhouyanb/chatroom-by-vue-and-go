@@ -144,10 +144,10 @@ import {mapMutations} from 'vuex'
             }
         },
         mounted(){
-            if (this.loadCookies()){
-                this.show=true;
-                this.tohome();
-            }
+            // if (this.loadCookies()){
+            //     this.show=true;
+            //     this.tohome();
+            // }
         }
     }
 </script>
